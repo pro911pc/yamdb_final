@@ -32,7 +32,7 @@ jobs:
       run: |
         # запуск проверки проекта по flake8
         python -m flake8
-        cd infra_project/
+        cd yamdb_final/
         python manage.py test
 
   build_and_push_to_docker_hub:
@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v2 
         with:
           push: true
-          tags: dimitriuglov/infra_actions:v1.00.0000
+          tags: dimitriuglov/api_yamdb:v1.00.0000
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
@@ -71,10 +71,10 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
           # Выполняет pull образа с DockerHub
-          sudo docker pull dimitriuglov/infra_actions:v1.00.0000
+          sudo docker pull dimitriuglov/api_yamdb:v1.00.0000
           #остановка всех контейнеров
           sudo docker stop $(sudo docker ps -a -q)
-          sudo docker run --rm -d -p 5000:5000 dimitriuglov/infra_actions:v1.00.0000
+          sudo docker run --rm -d -p 5000:5000 dimitriuglov/api_yamdb:v1.00.0000
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
