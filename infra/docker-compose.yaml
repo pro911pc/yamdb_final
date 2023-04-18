@@ -10,9 +10,7 @@ services:
     env_file:
       - .env
   web:
-    build: 
-      context: ../
-      dockerfile: api_yamdb/Dockerfile
+    image: duglov/api_yamdb:v1.00.0000
     restart: always
     volumes:
       - static_value:/app/static/
